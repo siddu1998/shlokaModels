@@ -2,13 +2,6 @@ absl-py==1.4.0
 aiohttp==3.8.3
 aiosignal==1.2.0
 appdirs==1.4.4
-argon2-cffi @ file:///Users/runner/miniforge3/conda-bld/argon2-cffi_1636021430152/work
-asgiref==3.4.1
-astunparse==1.6.3
-async-generator==1.10
-async-timeout==4.0.2
-attrs @ file:///home/conda/feedstock_root/build_artifacts/attrs_1620387926260/work
-audioread==3.0.0
 Babel @ file:///home/conda/feedstock_root/build_artifacts/babel_1619719576210/work
 backcall @ file:///home/conda/feedstock_root/build_artifacts/backcall_1592338393461/work
 backports.functools-lru-cache @ file:///home/conda/feedstock_root/build_artifacts/backports.functools_lru_cache_1618230623929/work
