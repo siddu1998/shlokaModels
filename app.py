@@ -48,10 +48,10 @@ def predict():
         image = image.convert("RGB")
         print(image.size)
         print(image.mode)
-        model = load_model("/Users/sid/Desktop/Code/shloka-flask/converted_keras/keras_model.h5", compile=False)
+        model = load_model("keras_model.h5", compile=False)
 
         # Load the labels
-        class_names = open("/Users/sid/Desktop/Code/shloka-flask/converted_keras/labels.txt", "r").readlines()
+        class_names = open("labels.txt", "r").readlines()
         data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 
         # resizing the image to be at least 224x224 and then cropping from the center
