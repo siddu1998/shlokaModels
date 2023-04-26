@@ -80,7 +80,7 @@ def predict():
         return jsonify(result=class_name[2:], probability=str(confidence_score))
 
 
-if __name__ == '__main__':
-    app.run(port=5002)
-    app.run(debug=True)
-    app.run()
+# if __name__ == '__main__':
+#     app.run(port=5002)
+#     app.run(debug=True)
+#     app.run()
