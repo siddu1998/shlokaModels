@@ -2,7 +2,6 @@ absl-py==1.4.0
 aiohttp==3.8.3
 aiosignal==1.2.0
 appdirs==1.4.4
-appnope @ file:///Users/runner/miniforge3/conda-bld/appnope_1635819647402/work
 argon2-cffi @ file:///Users/runner/miniforge3/conda-bld/argon2-cffi_1636021430152/work
 asgiref==3.4.1
 astunparse==1.6.3
@@ -42,13 +41,6 @@ dataclasses-json==0.5.7
 debugpy @ file:///Users/runner/miniforge3/conda-bld/debugpy_1636043372408/work
 decorator @ file:///home/conda/feedstock_root/build_artifacts/decorator_1631346842025/work
 defusedxml @ file:///home/conda/feedstock_root/build_artifacts/defusedxml_1615232257335/work
-discord.py==2.0.1
-dj-database-url==0.5.0
-Django==3.2.9
-django-cors-headers==3.11.0
-django-filter==21.1
-django-heroku==0.3.1
-djangorestframework==3.12.4
 en-core-web-md @ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.2.0/en_core_web_md-3.2.0-py3-none-any.whl
 entrypoints @ file:///home/conda/feedstock_root/build_artifacts/entrypoints_1605121927639/work/dist/entrypoints-0.3-py2.py3-none-any.whl
 et-xmlfile==1.1.0
@@ -91,13 +83,6 @@ Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/jinja2_1636510082894/
 joblib==1.1.0
 json5 @ file:///home/conda/feedstock_root/build_artifacts/json5_1600692310011/work
 jsonfield==3.1.0
-jsonschema @ file:///home/conda/feedstock_root/build_artifacts/jsonschema-meta_1638906784524/work
-jupyter-client @ file:///home/conda/feedstock_root/build_artifacts/jupyter_client_1637611911738/work
-jupyter-core @ file:///Users/runner/miniforge3/conda-bld/jupyter_core_1636814374382/work
-jupyter-server @ file:///home/conda/feedstock_root/build_artifacts/jupyter_server_1639084645710/work
-jupyterlab @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_1637169796215/work
-jupyterlab-pygments @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_pygments_1601375948261/work
-jupyterlab-server @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_server_1632590716858/work
 keras==2.12.0
 kiwisolver @ file:///Users/runner/miniforge3/conda-bld/kiwisolver_1635836828929/work
 langchain==0.0.136
