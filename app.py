@@ -30,6 +30,9 @@ Model_weigths = ".h5"
 # Declare a flask app
 app = Flask(__name__)
 
+model = load_model("keras_model.h5", compile=False)
+# Load the labels
+class_names = open("labels.txt", "r").readlines()
 
 
 
@@ -48,10 +51,6 @@ def predict():
         image = image.convert("RGB")
         print(image.size)
         print(image.mode)
-        model = load_model("keras_model.h5", compile=False)
-
-        # Load the labels
-        class_names = open("labels.txt", "r").readlines()
         data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 
         # resizing the image to be at least 224x224 and then cropping from the center
