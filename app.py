@@ -42,7 +42,7 @@ def upload():
         file = request.files['file']
         path = os.path.join("AudioFiles", file.filename)
         file.save(path)
-        return send_file(path, attachment_filename='audio.wav')
+        return send_file(path, download_name='audio.wav')
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
