@@ -35,6 +35,17 @@ model = load_model("keras_model.h5", compile=False)
 # Load the labels
 class_names = open("labels.txt", "r").readlines()
 
+@app.route('/process_wav', methods=['POST'])
+def process_wav():
+    audio = request.get_data()  
+    if not audio:
+        return 'No audio data in the request', 400
+    wav_path = 'audio.wav'
+    with open(wav_path, 'wb') as f:
+        f.write(audio)
+    # Return the .wav file
+    return send_file(wav_path, mimetype='audio/wav', as_attachment=True)
+
 
 @app.route("/upload", methods = ["GET", "POST"])
 def upload():
@@ -89,5 +100,5 @@ def predict():
 
 if __name__ == '__main__':
     # app.run(port=5002)
-    # app.run(debug=True)
+    app.run(debug=True)
     app.run()
