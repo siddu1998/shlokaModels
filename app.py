@@ -8,6 +8,7 @@ from io import BytesIO
 # Flask
 import numpy as np
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
+from flask import send_file
 
 #tensorflow
 import tensorflow as tf
@@ -35,6 +36,13 @@ model = load_model("keras_model.h5", compile=False)
 class_names = open("labels.txt", "r").readlines()
 
 
+@app.route("/upload", methods = ["GET", "POST"])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        path = os.path.join("AudioFiles", file.filename)
+        file.save(path)
+        return send_file(path, attachment_filename='audio.wav')
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
@@ -79,7 +87,7 @@ def predict():
         return jsonify(result=class_name[2:], probability=str(confidence_score))
 
 
-# if __name__ == '__main__':
-#     app.run(port=5002)
-#     app.run(debug=True)
-#     app.run()
+if __name__ == '__main__':
+    # app.run(port=5002)
+    # app.run(debug=True)
+    app.run()
