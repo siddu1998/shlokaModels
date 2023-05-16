@@ -57,7 +57,7 @@ def process_wav():
     audio_file= open(wav_path, "rb")
     result = openai.Audio.transcribe("whisper-1", audio_file)
     print(result["text"])
-    return jsonify(transcribedText=result["text"])
+    return jsonify(result["text"])
 
 
 @app.route("/upload", methods = ["GET", "POST"])
