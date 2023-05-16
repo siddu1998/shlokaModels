@@ -56,7 +56,7 @@ def process_wav():
     print(openai.api_key)
     audio_file= open(wav_path, "rb")
     result = openai.Audio.transcribe("whisper-1", audio_file)
-    print(jsonify(result["text"]))
+    print(result["text"])
     return jsonify(result["text"])
 
 
