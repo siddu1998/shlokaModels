@@ -35,16 +35,28 @@ model = load_model("keras_model.h5", compile=False)
 # Load the labels
 class_names = open("labels.txt", "r").readlines()
 
+
+import whisper
+import openai
+import os
+
+from boto.s3.connection import S3Connection
+
+
 @app.route('/process_wav', methods=['POST'])
 def process_wav():
+    print('request')
     audio = request.get_data()  
     if not audio:
         return 'No audio data in the request', 400
     wav_path = 'audio.wav'
     with open(wav_path, 'wb') as f:
         f.write(audio)
-    # Return the .wav file
-    return send_file(wav_path, mimetype='audio/wav', as_attachment=True)
+
+    openai.api_key = S3Connection(os.environ['transcription_key'])
+    print(openai.api_key)
+    result = openai.Audio.transcribe("whisper-1", wav_path)
+    return jsonify(transcribedText=result["text"])
 
 
 @app.route("/upload", methods = ["GET", "POST"])
@@ -99,6 +111,6 @@ def predict():
 
 
 if __name__ == '__main__':
-    # app.run(port=5002)
+    app.run(port=5002)
     app.run(debug=True)
     app.run()
