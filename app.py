@@ -37,9 +37,9 @@ class_names = open("labels.txt", "r").readlines()
 
 
 import openai
-import os
+# import os
 
-from boto.s3.connection import S3Connection
+# from boto.s3.connection import S3Connection
 
 
 @app.route('/process_wav', methods=['POST'])
@@ -52,9 +52,10 @@ def process_wav():
     with open(wav_path, 'wb') as f:
         f.write(audio)
 
-    openai.api_key = S3Connection(os.environ['transcription_key'])
+    openai.api_key = "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" #S3Connection(os.environ['transcription_key'])
     print(openai.api_key)
     result = openai.Audio.transcribe("whisper-1", wav_path)
+    print(result["text"])
     return jsonify(transcribedText=result["text"])
 
 
