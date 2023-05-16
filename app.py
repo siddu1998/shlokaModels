@@ -36,7 +36,6 @@ model = load_model("keras_model.h5", compile=False)
 class_names = open("labels.txt", "r").readlines()
 
 
-import whisper
 import openai
 import os
 
