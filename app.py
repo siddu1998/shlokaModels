@@ -37,7 +37,7 @@ class_names = open("labels.txt", "r").readlines()
 
 
 import openai
-# import os
+import os
 
 # from boto.s3.connection import S3Connection
 
@@ -52,20 +52,18 @@ def process_wav():
     with open(wav_path, 'wb') as f:
         f.write(audio)
 
-    openai.api_key = "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" #S3Connection(os.environ['transcription_key'])
+    openai.api_key = os.environ['transcription_key'] #"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" #S3Connection(os.environ['transcription_key'])
     print(openai.api_key)
-    result = openai.Audio.transcribe("whisper-1", wav_path)
+    audio_file= open(wav_path, "rb")
+    result = openai.Audio.transcribe("whisper-1", audio_file)
     print(result["text"])
     return jsonify(transcribedText=result["text"])
 
 
 @app.route("/upload", methods = ["GET", "POST"])
 def upload():
-    if request.method == 'POST':
-        file = request.files['file']
-        path = os.path.join("AudioFiles", file.filename)
-        file.save(path)
-        return send_file(path, download_name='audio.wav')
+    print(os.environ['transcription_key'])
+    return jsonify(os.environ['transcription_key'])
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
