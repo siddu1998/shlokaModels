@@ -27,9 +27,11 @@ from PIL import Image
 Model_json = ".json"
 Model_weigths = ".h5"
 
+from flask_cors import CORS
 
 # Declare a flask app
 app = Flask(__name__)
+CORS(app)
 
 model = load_model("keras_model.h5", compile=False)
 # Load the labels
