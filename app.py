@@ -47,11 +47,10 @@ import os
 @app.route('/process_wav_js', methods=['POST'])
 def process_wav_js():
     file = request.files['audio']
-    audio = AudioSegment.from_file(file, format="ogg")
-    audio.export("audio.wav", format="wav")
+    file.save("audio.wav")
     openai.api_key = os.environ['transcription_key'] #"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" #S3Connection(os.environ['transcription_key'])
     print(openai.api_key)
-    audio_file= open(wav_path, "rb")
+    audio_file= open("audio.wav", "rb")
     result = openai.Audio.transcribe("whisper-1", audio_file)
     print('here is the audio text:', result["text"])
     return jsonify(result["text"])
