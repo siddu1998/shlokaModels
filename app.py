@@ -6,6 +6,7 @@ import base64
 from PIL import Image,ImageOps
 from io import BytesIO
 # Flask
+from pydub import AudioSegment
 import numpy as np
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
 from flask import send_file
@@ -42,6 +43,18 @@ import openai
 import os
 
 # from boto.s3.connection import S3Connection
+
+@app.route('/process_wav', methods=['POST'])
+def process_wav_js():
+    file = request.files['audio']
+    audio = AudioSegment.from_file(file, format="ogg")
+    audio.export("audio.wav", format="wav")
+    openai.api_key = os.environ['transcription_key'] #"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" #S3Connection(os.environ['transcription_key'])
+    print(openai.api_key)
+    audio_file= open(wav_path, "rb")
+    result = openai.Audio.transcribe("whisper-1", audio_file)
+    print('here is the audio text:', result["text"])
+    return jsonify(result["text"])
 
 
 @app.route('/process_wav', methods=['POST'])
