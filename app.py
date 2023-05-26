@@ -44,7 +44,7 @@ import os
 
 # from boto.s3.connection import S3Connection
 
-@app.route('/process_wav', methods=['POST'])
+@app.route('/process_wav_js', methods=['POST'])
 def process_wav_js():
     file = request.files['audio']
     audio = AudioSegment.from_file(file, format="ogg")
