@@ -1,5 +1,4 @@
-0 Prana Left
-1 Prana Right
-2 Fish
-3 Aarti
-4 default
+0 Prana
+1 Fish
+2 Aarti
+3 Default
