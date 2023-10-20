@@ -174,7 +174,7 @@ def predictPrana():
         return jsonify(result=class_name[2:], probability=str(confidence_score))
 
 
-@app.route('/get_chat_completion', methods=['POST'])
+@app.route('/get_chat_completion', methods=['GET','POST'])
 def get_chat_completion():
     data = request.json
     chat_history = data.get('chatHistory')
@@ -189,6 +189,7 @@ def get_chat_completion():
           messages=chat_history
         )
         ai_response = response.choices[0].message['content'].strip()
+        print(ai_response)
         return jsonify(ai_response)
     
     except Exception as e:
