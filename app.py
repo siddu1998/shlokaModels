@@ -174,25 +174,22 @@ def predictPrana():
         return jsonify(result=class_name[2:], probability=str(confidence_score))
 
 
-@app.route('/getChatCompletion', methods=['GET', 'POST'])
+@app.route('/get_chat_completion', methods=['POST'])
 def get_chat_completion():
-    openai.api_key = os.environ['transcription_key'] #"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" #S3Connection(os.environ['transcription_key'])
     data = request.json
-    transcription = data.get('text')
+    chat_history = data.get('chatHistory')
     
-    # Ensure you have valid transcription data
-    if not transcription:
-        return jsonify({"error": "No transcription provided"}), 400
+    if not chat_history:
+        return jsonify({"error": "No chat history provided"}), 400
 
     try:
-        # OpenAI GPT-3.5-turbo is used as an example, replace with GPT-4 or desired model if available
-        response = openai.Completion.create(
-          engine="text-davinci-002",
-          prompt=transcription,
-          max_tokens=150  # Adjust this as needed
+        # Use OpenAI's chat model, adjust the engine as needed
+        response = openai.ChatCompletion.create(
+          model="gpt-3.5-turbo",
+          messages=chat_history
         )
-        completion = response.choices[0].text.strip()
-        return jsonify(completion)
+        ai_response = response.choices[0].message['content'].strip()
+        return jsonify(ai_response)
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
