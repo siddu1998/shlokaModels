@@ -178,7 +178,7 @@ def predictPrana():
 def get_chat_completion():
     data = request.json
     chat_history = data.get('chatHistory')
-    
+    openai.api_key = os.environ['transcription_key']
     if not chat_history:
         return jsonify({"error": "No chat history provided"}), 400
 
