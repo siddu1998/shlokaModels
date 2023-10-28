@@ -185,7 +185,7 @@ def get_chat_completion():
     try:
         # Use OpenAI's chat model, adjust the engine as needed
         response = openai.ChatCompletion.create(
-          model="gpt-3.5-turbo",
+          model="gpt-4",
           messages=chat_history
         )
         ai_response = response.choices[0].message['content'].strip()
