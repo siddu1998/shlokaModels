@@ -54,7 +54,7 @@ import os
 def process_wav_js():
     file = request.files['audio']
     file.save("audio.wav")
-    openai.api_key = os.environ['transcription_key'] #"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" #S3Connection(os.environ['transcription_key'])
+    openai.api_key = os.environ['transcription_key'] 
     print(openai.api_key)
     audio_file= open("audio.wav", "rb")
     result = openai.Audio.transcribe("whisper-1", audio_file)
