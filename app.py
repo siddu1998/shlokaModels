@@ -61,6 +61,18 @@ def process_wav_js():
     print('here is the audio text:', result["text"])
     return jsonify(result["text"])
 
+@app.route('/process_wav_js_key', methods=['POST'])
+def process_wav_js():
+    file = request.files['audio']
+    api_key = request.form.get('key')
+    file.save("audio.wav")
+    openai.api_key = api_key #os.environ['transcription_key'] 
+    print(openai.api_key)
+    audio_file= open("audio.wav", "rb")
+    result = openai.Audio.transcribe("whisper-1", audio_file)
+    print('here is the audio text:', result["text"])
+    return jsonify(result["text"])
+
 
 @app.route('/process_wav', methods=['POST'])
 def process_wav():
