@@ -62,7 +62,7 @@ def process_wav_js():
     return jsonify(result["text"])
 
 @app.route('/process_wav_js_key', methods=['POST'])
-def process_wav_js():
+def process_wav_js_key():
     file = request.files['audio']
     api_key = request.form.get('key')
     file.save("audio.wav")
