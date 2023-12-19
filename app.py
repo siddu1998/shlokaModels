@@ -143,69 +143,48 @@ def predict():
 
 
 
-# @app.route('/predictPrana', methods=['GET', 'POST'])
-# def predictPrana():
-#     '''
-#     predict function to predict the image
-#     Api hits this function when someone clicks submit.
-#     '''
-#     if request.method == 'POST':
-#       # Get the image data from the POST request
-#         image_data = request.files['image'].read()
+@app.route('/predictPrana', methods=['GET', 'POST'])
+def predictPrana():
+    '''
+    predict function to predict the image
+    Api hits this function when someone clicks submit.
+    '''
+    if request.method == 'POST':
+      # Get the image data from the POST request
+        image_data = request.files['image'].read()
 
-#         # Convert the image data to a PIL Image object
-#         image = Image.open(io.BytesIO(image_data))   # initialize model
-#         image = image.convert("RGB")
-#         print(image.size)
-#         print(image.mode)
-#         data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+        # Convert the image data to a PIL Image object
+        image = Image.open(io.BytesIO(image_data))   # initialize model
+        image = image.convert("RGB")
+        print(image.size)
+        print(image.mode)
+        data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 
-#         # resizing the image to be at least 224x224 and then cropping from the center
-#         size = (224, 224)
-#         image = ImageOps.fit(image, size)
+        # resizing the image to be at least 224x224 and then cropping from the center
+        size = (224, 224)
+        image = ImageOps.fit(image, size)
 
-#         # turn the image into a numpy array
-#         image_array = np.asarray(image)
+        # turn the image into a numpy array
+        image_array = np.asarray(image)
 
-#         # Normalize the image
-#         normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
+        # Normalize the image
+        normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
 
-#         # Load the image into the array
-#         data[0] = normalized_image_array
+        # Load the image into the array
+        data[0] = normalized_image_array
 
-#         # Predicts the model
-#         prediction = model_p.predict(data)
-#         index = np.argmax(prediction)
-#         class_name = class_names_p[index]
-#         confidence_score = prediction[0][index]
+        # Predicts the model
+        prediction = model_p.predict(data)
+        index = np.argmax(prediction)
+        class_name = class_names_p[index]
+        confidence_score = prediction[0][index]
 
-#         # Print prediction and confidence score
-#         print("Class:", class_name[2:], end="")
-#         print("Confidence Score:", confidence_score)
+        # Print prediction and confidence score
+        print("Class:", class_name[2:], end="")
+        print("Confidence Score:", confidence_score)
 
-#         return jsonify(result=class_name[2:], probability=str(confidence_score))
+        return jsonify(result=class_name[2:], probability=str(confidence_score))
 
-
-@app.route('/get_chat_completion', methods=['GET','POST'])
-def get_chat_completion():
-    data = request.json
-    chat_history = data.get('chatHistory')
-    openai.api_key = os.environ['transcription_key']
-    if not chat_history:
-        return jsonify({"error": "No chat history provided"}), 400
-
-    try:
-        # Use OpenAI's chat model, adjust the engine as needed
-        response = openai.ChatCompletion.create(
-          model="gpt-4",
-          messages=chat_history
-        )
-        ai_response = response.choices[0].message['content'].strip()
-        print(ai_response)
-        return jsonify(ai_response)
-    
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 
 
