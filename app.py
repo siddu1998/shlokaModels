@@ -35,15 +35,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# model = load_model("keras_model.h5", compile=False)
+model = load_model("keras_model.h5", compile=False)
 # # Load the labels
-# class_names = open("labels.txt", "r").readlines()
+class_names = open("labels.txt", "r").readlines()
 
 
 
 # model_p = load_model("keras_model_p.h5", compile=False)
 # # Load the labels
-# class_names_p = open("labels_p.txt", "r").readlines()
+class_names_p = open("labels_p.txt", "r").readlines()
 
 
 import openai
