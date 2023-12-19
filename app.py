@@ -13,11 +13,11 @@ from flask import send_file
 import requests
 
 #tensorflow
-# import tensorflow as tf
-# from tensorflow.keras.applications.imagenet_utils import preprocess_input, decode_predictions
-# from tensorflow.keras.models import load_model
-# from tensorflow.keras.preprocessing import image
-# from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
+import tensorflow as tf
+from tensorflow.keras.applications.imagenet_utils import preprocess_input, decode_predictions
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 
 from flask import Flask, request, jsonify
 import io
@@ -41,7 +41,7 @@ class_names = open("labels.txt", "r").readlines()
 
 
 
-# model_p = load_model("keras_model_p.h5", compile=False)
+model_p = load_model("keras_model_p.h5", compile=False)
 # # Load the labels
 class_names_p = open("labels_p.txt", "r").readlines()
 
