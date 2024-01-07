@@ -13,11 +13,17 @@ from flask import send_file
 import requests
 
 #tensorflow
-import tensorflow as tf
-from tensorflow.keras.applications.imagenet_utils import preprocess_input, decode_predictions
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
+# import tensorflow as tf
+# from tensorflow.keras.applications.imagenet_utils import preprocess_input, decode_predictions
+# from tensorflow.keras.models import load_model
+# from tensorflow.keras.preprocessing import image
+# from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
+
+#mediaPipe
+# from matplotlib import pyplot as plt
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
 
 from flask import Flask, request, jsonify
 import io
@@ -26,8 +32,9 @@ from PIL import Image
 
 # Variables 
 # Change them if you are using custom model or pretrained model with saved weigths
-Model_json = ".json"
-Model_weigths = ".h5"
+# Model_json = ".json"
+# Model_weigths = ".h5"
+
 
 from flask_cors import CORS
 
@@ -35,10 +42,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-model = load_model("keras_model.h5", compile=False)
-# # Load the labels
-class_names = open("labels.txt", "r").readlines()
+# model = load_model("keras_model.h5", compile=False)
+# # # Load the labels
+# class_names = open("labels.txt", "r").readlines()
 
+
+#mediaPipe
+base_options = python.BaseOptions(model_asset_path='gesture_recognizer.task')
+options = vision.GestureRecognizerOptions(base_options=base_options)
+recognizer = vision.GestureRecognizer.create_from_options(options)
 
 
 # model_p = load_model("keras_model_p.h5", compile=False)
@@ -109,35 +121,46 @@ def predict():
 
         # Convert the image data to a PIL Image object
         image = Image.open(io.BytesIO(image_data))   # initialize model
-        image = image.convert("RGB")
-        print(image.size)
-        print(image.mode)
-        data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+        # image = image.convert("RGB")
+        # data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+        image_np = np.array(image)
+        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image_np)
 
-        # resizing the image to be at least 224x224 and then cropping from the center
-        size = (224, 224)
-        image = ImageOps.fit(image, size)
+        # # resizing the image to be at least 224x224 and then cropping from the center
+        # size = (224, 224)
+        # image = ImageOps.fit(image, size)
 
-        # turn the image into a numpy array
-        image_array = np.asarray(image)
+        # # turn the image into a numpy array
+        # image_array = np.asarray(image)
 
-        # Normalize the image
-        normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
+        # # Normalize the image
+        # normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
 
-        # Load the image into the array
-        data[0] = normalized_image_array
+        # # Load the image into the array
+        # data[0] = normalized_image_array
 
-        # Predicts the model
-        prediction = model.predict(data)
-        index = np.argmax(prediction)
-        class_name = class_names[index]
-        confidence_score = prediction[0][index]
+        # # Predicts the model
+        # prediction = model.predict(data)
+        # index = np.argmax(prediction)
+        # class_name = class_names[index]
+        # confidence_score = prediction[0][index]
 
-        # Print prediction and confidence score
-        print("Class:", class_name[2:], end="")
-        print("Confidence Score:", confidence_score)
+        # # Print prediction and confidence score
+        # print("Class:", class_name[2:], end="")
+        # print("Confidence Score:", confidence_score)
 
-        return jsonify(result=class_name[2:], probability=str(confidence_score))
+
+        # STEP 4: Recognize gestures in the input image.
+        recognition_result = recognizer.recognize(mp_image)
+        try:
+            top_gesture = recognition_result.gestures[0][0]
+            print(top_gesture.category_name)
+
+            # return jsonify(result=class_name[2:], probability=str(confidence_score))
+            return jsonify(result = top_gesture.category_name)
+        except:
+            # return jsonify(result=class_name[2:], probability=str(confidence_score))
+            return jsonify(result = None)
 
 
 
