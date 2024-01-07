@@ -45,5 +45,6 @@ typing_extensions==4.5.0
 urllib3==1.26.15
 Werkzeug==2.3.0
 wrapt==1.14.1
+opencv-python-headless==4.9.0.80
 mediapipe==0.9.1.0
-opencv-python-headless
+
