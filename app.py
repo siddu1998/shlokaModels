@@ -152,7 +152,6 @@ def predict():
 
         # STEP 4: Recognize gestures in the input image.
         recognition_result = recognizer.recognize(mp_image)
-        print(recognition_result)
         try:
             top_gesture = recognition_result.gestures[0][0]
             print(top_gesture.category_name)
