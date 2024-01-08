@@ -160,7 +160,7 @@ def predict():
             return jsonify(result = top_gesture.category_name)
         except:
             # return jsonify(result=class_name[2:], probability=str(confidence_score))
-            return jsonify(result = None)
+            return jsonify(result = "Nothing Recognized")
 
 
 
