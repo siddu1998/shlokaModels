@@ -116,42 +116,17 @@ def predict():
     predict function to predict the image
     Api hits this function when someone clicks submit.
     '''
+    print('Gesture Hit')
     if request.method == 'POST':
         image_data = request.files['image'].read()
 
         # Convert the image data to a PIL Image object
         image = Image.open(io.BytesIO(image_data))   # initialize model
-        # image = image.convert("RGB")
-        # data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-        image_np = np.array(image)
-        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image_np)
-
-        # # resizing the image to be at least 224x224 and then cropping from the center
-        # size = (224, 224)
-        # image = ImageOps.fit(image, size)
-
-        # # turn the image into a numpy array
-        # image_array = np.asarray(image)
-
-        # # Normalize the image
-        # normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
-
-        # # Load the image into the array
-        # data[0] = normalized_image_array
-
-        # # Predicts the model
-        # prediction = model.predict(data)
-        # index = np.argmax(prediction)
-        # class_name = class_names[index]
-        # confidence_score = prediction[0][index]
-
-        # # Print prediction and confidence score
-        # print("Class:", class_name[2:], end="")
-        # print("Confidence Score:", confidence_score)
-
-
+        image.save("img1.png")
+        image = mp.Image.create_from_file('img1.png')
         # STEP 4: Recognize gestures in the input image.
-        recognition_result = recognizer.recognize(mp_image)
+        recognition_result = recognizer.recognize(image)
+        print(recognition_result)
         try:
             top_gesture = recognition_result.gestures[0][0]
             print(top_gesture.category_name)
@@ -165,6 +140,10 @@ def predict():
 
 
 
+@app.route('/get_image')
+def get_image():
+    print('hit')
+    return send_file('img1.png', mimetype='image/png')
 
 # @app.route('/predictPrana', methods=['GET', 'POST'])
 # def predictPrana():
