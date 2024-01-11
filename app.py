@@ -121,8 +121,16 @@ def predict():
         image_data = request.files['image'].read()
 
         # Convert the image data to a PIL Image object
-        image = Image.open(io.BytesIO(image_data))   # initialize model
-        image.save("img1.png")
+        image = Image.open(io.BytesIO(image_data))   
+        width, height = image.size
+        midpoint = width // 2
+
+        # Split the image
+        left_half = image.crop((0, 0, midpoint, height))
+        right_half = image.crop((midpoint, 0, width, height))
+
+        #right_half.save('right_half.jpg')# initialize model
+        right_half.save("img1.png")
         image = mp.Image.create_from_file('img1.png')
         # STEP 4: Recognize gestures in the input image.
         recognition_result = recognizer.recognize(image)
