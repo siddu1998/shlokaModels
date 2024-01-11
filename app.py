@@ -127,8 +127,16 @@ def predict():
 
         # Split the image
         right_half = image.crop((midpoint, 0, width, height))
-        cut_width = int(0.2 * right_half.size[0])
-        cut_height = int(0.2 * right_half.size[1])
+        # cut_width = int(0.2 * right_half.size[0])
+        # cut_height = int(0.2 * right_half.size[1])
+        cut_width_left = int(0.2 * right_half.size[0])
+        cut_height_top = int(0.2 * right_half.size[1])
+        # Adjust the width for the left cut
+        new_width = right_half.size[0] - cut_width_left
+
+        # Crop the right half image
+        cropped_right_half = right_half.crop((cut_width_left, cut_height_top, new_width, right_half.size[1]))
+
         
         # Crop the right half image
         cropped_right_half = right_half.crop((cut_width, cut_height, right_half.size[0], right_half.size[1]))
