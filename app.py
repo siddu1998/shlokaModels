@@ -126,11 +126,15 @@ def predict():
         midpoint = width // 2
 
         # Split the image
-        left_half = image.crop((0, 0, midpoint, height))
         right_half = image.crop((midpoint, 0, width, height))
+        cut_width = int(0.2 * right_half.size[0])
+        cut_height = int(0.2 * right_half.size[1])
+        
+        # Crop the right half image
+        cropped_right_half = right_half.crop((cut_width, cut_height, right_half.size[0], right_half.size[1]))
 
         #right_half.save('right_half.jpg')# initialize model
-        right_half.save("img1.png")
+        cropped_right_half.save("img1.png")
         image = mp.Image.create_from_file('img1.png')
         # STEP 4: Recognize gestures in the input image.
         recognition_result = recognizer.recognize(image)
