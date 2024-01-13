@@ -187,10 +187,7 @@ def isFlash():
         print(bright_percentage)
         # Assuming flashlight is on if bright pixels are more than a certain percentage
         # This threshold can be adjusted
-        if bright_percentage > 3:
-            return jsonify(result = True)
-        else:
-            return jsonify(result = False)
+        return jsonify (brightness = bright_percentage)
 
 @app.route('/get_image')
 def get_image():
