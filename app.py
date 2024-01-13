@@ -154,8 +154,8 @@ def predict():
 
 
 
-@app.route('/isFlash')
-def checkFlash():
+@app.route("/isFlash", methods = ["GET", "POST"])
+def isFlash():
         image_data = request.files['image'].read()
         # Convert the image data to a PIL Image object
         image = Image.open(io.BytesIO(image_data)) 
