@@ -159,20 +159,19 @@ def isFlash():
         image_data = request.files['image'].read()
         # Convert the image data to a PIL Image object
         image = Image.open(io.BytesIO(image_data)) 
-        image.save('flash.png')  
-        # width, height = image.size
-        # midpoint = width // 2
+        width, height = image.size
+        midpoint = width // 2
 
-        # # Split the image
-        # right_half = image.crop((midpoint, 0, width, height))
+        # Split the image
+        right_half = image.crop((midpoint, 0, width, height))
 
-        # cut_width_left = int(0.2 * right_half.size[0])
-        # cut_height_top = int(0.25 * right_half.size[1])
-        # new_width = right_half.size[0] - cut_width_left
+        cut_width_left = int(0.2 * right_half.size[0])
+        cut_height_top = int(0.25 * right_half.size[1])
+        new_width = right_half.size[0] - cut_width_left
 
-        # cropped_right_half = right_half.crop((cut_width_left, cut_height_top, new_width, right_half.size[1]))
-        # cropped_right_half.save("flash.png")
-        image_path = "flash.png"
+        cropped_right_half = right_half.crop((cut_width_left, cut_height_top, new_width, right_half.size[1]))
+        cropped_right_half.save("flash.png")
+        image_path = 'flash.png'
         image = cv2.imread(image_path, cv2.IMREAD_COLOR)
         
         # Convert to grayscale
