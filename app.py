@@ -11,6 +11,7 @@ import numpy as np
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
 from flask import send_file
 import requests
+import cv2
 
 #tensorflow
 # import tensorflow as tf
@@ -127,11 +128,9 @@ def predict():
 
         # Split the image
         right_half = image.crop((midpoint, 0, width, height))
-        # cut_width = int(0.2 * right_half.size[0])
-        # cut_height = int(0.2 * right_half.size[1])
+
         cut_width_left = int(0.2 * right_half.size[0])
         cut_height_top = int(0.25 * right_half.size[1])
-        # Adjust the width for the left cut
         new_width = right_half.size[0] - cut_width_left
 
         cropped_right_half = right_half.crop((cut_width_left, cut_height_top, new_width, right_half.size[1]))
@@ -154,6 +153,45 @@ def predict():
 
 
 
+
+@app.route('/isFlash')
+def checkFlash():
+        image_data = request.files['image'].read()
+        # Convert the image data to a PIL Image object
+        image = Image.open(io.BytesIO(image_data)) 
+        image.save('flash.png')  
+        # width, height = image.size
+        # midpoint = width // 2
+
+        # # Split the image
+        # right_half = image.crop((midpoint, 0, width, height))
+
+        # cut_width_left = int(0.2 * right_half.size[0])
+        # cut_height_top = int(0.25 * right_half.size[1])
+        # new_width = right_half.size[0] - cut_width_left
+
+        # cropped_right_half = right_half.crop((cut_width_left, cut_height_top, new_width, right_half.size[1]))
+        # cropped_right_half.save("flash.png")
+        image_path = "flash.png"
+        image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+        
+        # Convert to grayscale
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        
+        # Apply thresholding to find bright regions
+        _, thresh = cv2.threshold(gray, 220, 255, cv2.THRESH_BINARY)
+        
+        # Find the percentage of bright pixels
+        bright_pixels = np.sum(thresh == 255)
+        total_pixels = thresh.size
+        bright_percentage = (bright_pixels / total_pixels) * 100
+        print(bright_percentage)
+        # Assuming flashlight is on if bright pixels are more than a certain percentage
+        # This threshold can be adjusted
+        if bright_percentage > 3:
+            return jsonify(result = True)
+        else:
+            return jsonify(result = False)
 
 @app.route('/get_image')
 def get_image():
